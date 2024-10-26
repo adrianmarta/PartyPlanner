@@ -71,14 +71,7 @@ public class PartyService {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are already a participant!");
                 }
 
-                // Save the goodie to the database
-                if (joinRequest.getGoodie() != null) {
-                    // Optional: Set the userEmail in the goodie
-                    joinRequest.getGoodie().setUserEmail(currentUser.getEmail());
-                    goodieRepository.save(joinRequest.getGoodie());
-                }
-
-                party.getGoodies().add(joinRequest.getGoodie());
+                // Here, the goodie is no longer used since it's not provided
                 party.getJoined_participants().add(currentUser);
                 return partyRepository.save(party);
             } else {

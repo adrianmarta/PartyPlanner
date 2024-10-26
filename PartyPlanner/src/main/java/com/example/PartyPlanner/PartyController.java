@@ -16,6 +16,7 @@ public class PartyController {
     private PartyService partyService;
     @Autowired
     private UserService userService;
+
     @GetMapping
     public ResponseEntity<List<Party>> getAllParties() {
         List<Party> parties = partyService.AllParties();
@@ -24,17 +25,18 @@ public class PartyController {
         }
         return new ResponseEntity<>(parties, HttpStatus.OK);
     }
+
     @PostMapping
     public ResponseEntity<Party> createParty(@RequestBody Party party) {
         return new ResponseEntity<>(partyService.createParty(party), HttpStatus.CREATED);
     }
+
     @PostMapping("/join")
     public ResponseEntity<Party> joinParty(
             @RequestParam String partyId,
-            @RequestParam String email,
-            @RequestBody Goodie goodie) {
+            @RequestParam String email) {
 
-        JoinRequest joinRequest = new JoinRequest(email,goodie); // Create JoinRequest object
+        JoinRequest joinRequest = new JoinRequest(email, null); // Create JoinRequest object without goodie
 
         Party updatedParty = partyService.addParticipant(partyId, joinRequest);
         return ResponseEntity.ok(updatedParty);
@@ -44,4 +46,5 @@ public class PartyController {
         Party party = partyService.findPartyById(partyId);
         return new ResponseEntity<>(party, HttpStatus.OK);
     }
+
 }
